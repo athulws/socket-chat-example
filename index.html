@@ -69,7 +69,7 @@
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
-    <!-- This line includes the Socket.IO JavaScript library in the HTML file.  --> 
+    <!-- This line includes the Socket.IO JavaScript library in the HTML file.  -->
 
     <script>
         const socket = io(); // Create a Socket.IO connection
@@ -78,13 +78,23 @@
         const form = document.getElementById('form');
         const input = document.getElementById('input');
 
+        const messages = document.getElementById('messages'); // ul tag ne vilichu (check line no:66)
+
         form.addEventListener('submit', (e) => { // form submit aayal,// adds an event listener to the form for the 'submit' event. When the form is submitted the provided callback function is executed.
             e.preventDefault();
             if (input.value) {  // input tag il value koduthal,  // emit() function - allows you to send messages or data from the client to the server or from the server to the client.
-                                                            // emits a 'chat message' (we can give any name) event to the Socket.IO server, sending the content of the input field as the message.
+                // emits a 'chat message' (we can give any name) event to the Socket.IO server, sending the content of the input field as the message.
                 socket.emit('chat message', input.value);
                 input.value = ''; // send button koduth kazhinjal input tag clear aakan
             }
+        });
+
+
+        socket.on('chat message', (msg) => { //message send aayal triger aakunna event aan "socket.on"
+            const item = document.createElement('li'); //creating li element
+            item.textContent = msg; // giving message (ie, msg) from server side to inside of li
+            messages.appendChild(item); // appending li element to ul (ie, ul nte ullil li elements kettunnu)
+            window.scrollTo(0, document.body.scrollHeight);
         });
     </script> <!-- This script initializes a connection to the Socket.IO server. 
     The io() function is provided by the Socket.IO library, and it creates a WebSocket connection to the server. 

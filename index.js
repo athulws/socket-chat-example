@@ -14,16 +14,18 @@ app.get('/', (req, res) => { // Define a route for handling HTTP GET requests to
   res.sendFile(join(__dirname, 'index.html')); // ippo enthenkilum okk file name varumbol aan "sendFile" use cheyyunne
 });
 
-io.on('connection', (socket) => { // Socket.IO event handling for 'connection' event
+io.on('connection', (socket) => {     // Socket.IO event handling for 'connection' event
 //   console.log('a user connected'); //This block of code listens for the 'connection' event, which is triggered whenever a client successfully connects to the server through Socket.IO.
 
-//   socket.on('disconnect', () => { // if its disconnected
+//   socket.on('disconnect', () => {  // if its disconnected
 //     console.log('user disconnected');
 //   });
 
 socket.on('chat message', (msg) => { //This event is triggered when a client sends a 'chat message' event to the server.
                                      // The provided callback function(ie, "msg") is executed when the 'chat message' event occurs.
-    console.log('message: ' + msg);
+    // console.log('message: ' + msg);
+    
+    io.emit('chat message', msg);
   });
 });
 
